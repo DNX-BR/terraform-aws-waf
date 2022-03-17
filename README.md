@@ -3,7 +3,7 @@
 This Terraform module deploys an AWS Web Application Firewall version 2 (WAFv2).
 
 The following resources will be created:
-- Web ACL with defined rule set (count or block)
+- Web ACL with a defined rule set (count or block)
 - Optional Web Association with a list of Application Load Balancers (ALB)
 - Optional Web Association with a list of CloudFront Distributions
 - Optional CloudWatch logging configuration
