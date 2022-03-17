@@ -33,33 +33,42 @@ variable "wafv2_rate_limit_rule" {
 }
 
 variable "wafv2_create_alb_association" {
+  type        = bool
   default     = false
   description = "If associate Web ACL with the ALB"
 }
 
 variable "wafv2_arn_alb_internet_facing" {
+  type        = list(string)
+  default     = []
   description = "List of ARN of the ALB to associate with the Web ACL"
 }
 
 variable "wafv2_create_cloudfront_association" {
+  type        = bool
   default     = false
   description = "If associate Web ACL with the CloudFront distribution"
 }
 
 variable "wafv2_arn_cloudfront_distribution" {
+  type        = list(string)
+  default     = []
   description = "List of ARN of the CloudFront distribution to associate with the Web ACL"
 }
 
 variable "wafv2_cloudwatch_logging" {
+  type        = bool
   default     = false
   description = "Enable CloudWatch Logging"
 }
 
 variable "wafv2_cloudwatch_retention" {
-  default     = 3
+  type        = number
+  default     = 7
   description = "CloudWatch Logging Retention in Days"
 }
 
 variable "environment" {
+  type        = string
   description = "Name of the environment"
 }
