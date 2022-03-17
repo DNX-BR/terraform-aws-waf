@@ -10,7 +10,7 @@ The following resources will be created:
 - Optional CloudWatch log group
 
 ## Usage
-Usage example with Application Load Balancer (ALB) and CloudFront Distribution.
+Usage example with Application Load Balancer (ALB) or CloudFront Distribution.
 ```hcl
 module "wafv2" {
   source   = "git::https://github.com/DNX-BR/terraform-aws-waf.git?ref=0.1.0"
@@ -65,16 +65,16 @@ No modules.
 | <a name="input_environment"></a> [environment](#input\_environment) | Name of the environment | `string` | n/a | yes |
 | <a name="input_wafv2_name"></a> [wafv2\_name](#input\_wafv2\_name) | Name of Web Application Firewall. Usually the cluster name (ECS or EKS). In the case of EKS cluster will be needed too associate the ALB in the manifest of external-load-balance with the label alb.ingress.kubernetes.io/wafv2-acl-arn | `string` | n/a | yes |
 | <a name="input_wafv2_enable"></a> [wafv2\_enable](#input\_wafv2\_enable) | Deploys WAF V2 with Managed rule groups | `bool` | `false` | yes |
-| <a name="input_wafv2_scope"></a> [wafv2\_scope](#input\_wafv2\_scope) | The scope of this Web ACL - Valid options: CLOUDFRONT, REGIONAL | `string` | n/a | yes |
+| <a name="input_wafv2_scope"></a> [wafv2\_scope](#input\_wafv2\_scope) | The scope of this Web ACL. Set REGIONAL for ALB. Valid options: CLOUDFRONT, REGIONAL | `string` | n/a | yes |
 | <a name="input_wafv2_managed_count_rule_groups"></a> [wafv2\_managed\_count\_rule\_groups](#input\_wafv2\_managed\_count\_rule\_groups) | List of WAF V2 managed rule groups, set to count | `list(string)` | `[]` | no |
 | <a name="input_wafv2_managed_block_rule_groups"></a> [wafv2\_managed\_block\_rule\_groups](#input\_wafv2\_managed\_block\_rule\_groups) | List of WAF V2 managed rule groups, set to block | `list(string)` | `[]` | no |
 | <a name="input_wafv2_rate_limit_rule"></a> [wafv2\_rate\_limit\_rule](#input\_wafv2\_rate\_limit\_rule) | The limit on requests per 5-minute period for a single originating IP address (leave 0 to disable) | `number` | `0` | no |
 | <a name="input_wafv2_cloudwatch_logging"></a> [wafv2\_cloudwatch\_logging](#input\_wafv2\_cloudwatch\_logging) | Enable CloudWatch Logging | `bool` | `false` | no |
 | <a name="input_wafv2_cloudwatch_retention"></a> [wafv2\_cloudwatch\_retention](#input\_wafv2\_cloudwatch\_retention) | CloudWatch Logging Retention in Days | `number` | `3` | no |
 | <a name="input_wafv2_create_alb_association"></a> [wafv2\_create\_alb\_association](#input\_wafv2\_create\_alb\_association) | If associate Web ACL with the ALB | `bool` | `false` | no |
-| <a name="input_wafv2_arn_alb_internet_facing"></a> [wafv2\_arn\_alb\_internet\_facing](#input\_wafv2\_arn\_alb\_internet\_facing) | ARN of the ALB to associate with the Web ACL | `string` | n/a | no |
+| <a name="input_wafv2_arn_alb_internet_facing"></a> [wafv2\_arn\_alb\_internet\_facing](#input\_wafv2\_arn\_alb\_internet\_facing) | List of ARN of the ALB to associate with the Web ACL | `string` | n/a | no |
 | <a name="input_wafv2_create_cloudfront_association"></a> [wafv2\_create\_cloudfront\_association](#input\_wafv2\_create\_cloudfront\_association) | If associate Web ACL with the CloudFront distribution | `bool` | `false` | no |
-| <a name="input_wafv2_arn_cloudfront_distribution"></a> [wafv2\_arn\_cloudfront\_distribution](#input\_wafv2\_arn\_cloudfront\_distribution) | ARN of the CloudFront distribution to associate with the Web ACL | `string` | n/a | no |
+| <a name="input_wafv2_arn_cloudfront_distribution"></a> [wafv2\_arn\_cloudfront\_distribution](#input\_wafv2\_arn\_cloudfront\_distribution) | List of ARN of the CloudFront distribution to associate with the Web ACL | `string` | n/a | no |
 
 ## Outputs
 

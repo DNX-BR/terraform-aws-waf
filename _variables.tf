@@ -1,14 +1,17 @@
 variable "wafv2_name" {
+  type        = string
   description = "Name of Web Application Firewall. Usually the cluster name (ECS or EKS). In the case of EKS cluster will be needed too associate the ALB in the manifest of external-load-balance with the label alb.ingress.kubernetes.io/wafv2-acl-arn"
 }
 
 variable "wafv2_enable" {
+  type        = bool
   default     = false
   description = "Deploys WAF V2 with Managed rule groups"
 }
 
 variable "wafv2_scope" {
-  description = "The scope of this Web ACL - Valid options: CLOUDFRONT, REGIONAL"
+  type        = string
+  description = "The scope of this Web ACL. Set REGIONAL for ALB. Valid options: CLOUDFRONT, REGIONAL"
 }
 
 variable "wafv2_managed_count_rule_groups" {
@@ -35,7 +38,7 @@ variable "wafv2_create_alb_association" {
 }
 
 variable "wafv2_arn_alb_internet_facing" {
-  description = "ARN of the ALB to associate with the Web ACL"
+  description = "List of ARN of the ALB to associate with the Web ACL"
 }
 
 variable "wafv2_create_cloudfront_association" {
@@ -44,7 +47,7 @@ variable "wafv2_create_cloudfront_association" {
 }
 
 variable "wafv2_arn_cloudfront_distribution" {
-  description = "ARN of the CloudFront distribution to associate with the Web ACL"
+  description = "List of ARN of the CloudFront distribution to associate with the Web ACL"
 }
 
 variable "wafv2_cloudwatch_logging" {
