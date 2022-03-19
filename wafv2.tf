@@ -13,7 +13,7 @@ locals {
 resource "aws_wafv2_web_acl" "default" {
   count       = var.wafv2_enable ? 1 : 0
   name        = "waf-webacl-${var.wafv2_name}"
-  description = "WAFv2 ACL for ${var.wafv2_name}"
+  description = "WAFv2 Web ACL for ${var.wafv2_name}"
   scope       = var.wafv2_scope
 
   default_action {
@@ -97,12 +97,6 @@ resource "aws_wafv2_web_acl_association" "alb" {
   web_acl_arn  = aws_wafv2_web_acl.default[0].arn
 }
 
-resource "aws_wafv2_web_acl_association" "cloudfront" {
-  count        = var.wafv2_enable && var.wafv2_create_cloudfront_association ? length(var.wafv2_arn_cloudfront_distribution) : 0
-  resource_arn = var.wafv2_arn_cloudfront_distribution[count.index]
-  web_acl_arn  = aws_wafv2_web_acl.default[0].arn
-}
-
 resource "aws_wafv2_web_acl_logging_configuration" "default" {
   count                   = var.wafv2_enable && var.wafv2_cloudwatch_logging ? 1 : 0
   log_destination_configs = [aws_cloudwatch_log_group.default[0].arn]
@@ -111,11 +105,11 @@ resource "aws_wafv2_web_acl_logging_configuration" "default" {
 
 resource "aws_cloudwatch_log_group" "default" {
   count             = var.wafv2_enable && var.wafv2_cloudwatch_logging ? 1 : 0
-  name              = "aws-waf-${var.wafv2_name}-logs"
+  name              = "aws-waf-logs-${var.wafv2_name}"
   retention_in_days = var.wafv2_cloudwatch_retention
 
   tags = {
-    Name = "aws-waf-${var.wafv2_name}-logs"
+    Name = "aws-waf-logs-${var.wafv2_name}"
     Environment = var.environment
     Application = "WAF v2"
   }

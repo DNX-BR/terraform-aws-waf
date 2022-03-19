@@ -14,6 +14,12 @@ variable "wafv2_scope" {
   description = "The scope of this Web ACL. Set REGIONAL for ALB. Valid options: CLOUDFRONT, REGIONAL"
 }
 
+variable "wafv2_arn" {
+  type        = string
+  default     = null
+  description = "The ARN of the WAF WebACL (output)"
+}
+
 variable "wafv2_managed_count_rule_groups" {
   type        = list(string)
   default     = []
@@ -42,18 +48,6 @@ variable "wafv2_arn_alb_internet_facing" {
   type        = list(string)
   default     = []
   description = "List of ARN of the ALB to associate with the Web ACL"
-}
-
-variable "wafv2_create_cloudfront_association" {
-  type        = bool
-  default     = false
-  description = "If associate Web ACL with the CloudFront distribution"
-}
-
-variable "wafv2_arn_cloudfront_distribution" {
-  type        = list(string)
-  default     = []
-  description = "List of ARN of the CloudFront distribution to associate with the Web ACL"
 }
 
 variable "wafv2_cloudwatch_logging" {

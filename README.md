@@ -52,18 +52,17 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudwatch_log_group.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_wafv2_web_acl.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl) | resource |
 | [aws_wafv2_web_acl_association.alb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl_association) | resource |
-| [aws_wafv2_web_acl_association.cloudfront](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl_association) | resource |
 | [aws_wafv2_web_acl_logging_configuration.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl_logging_configuration) | resource |
+| [aws_cloudwatch_log_group.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | Name of the environment | `string` | n/a | yes |
-| <a name="input_wafv2_name"></a> [wafv2\_name](#input\_wafv2\_name) | Name of Web Application Firewall. Usually the cluster name (ECS or EKS). In the case of EKS cluster will be needed too associate the ALB in the manifest of external-load-balance with the label alb.ingress.kubernetes.io/wafv2-acl-arn | `string` | n/a | yes |
+| <a name="input_wafv2_name"></a> [wafv2\_name](#input\_wafv2\_name) | Name of Web Application Firewall. | `string` | n/a | yes |
 | <a name="input_wafv2_enable"></a> [wafv2\_enable](#input\_wafv2\_enable) | Deploys WAF V2 with Managed rule groups | `bool` | `false` | yes |
 | <a name="input_wafv2_scope"></a> [wafv2\_scope](#input\_wafv2\_scope) | The scope of this Web ACL. Set REGIONAL for ALB. Valid options: CLOUDFRONT, REGIONAL | `string` | n/a | yes |
 | <a name="input_wafv2_managed_count_rule_groups"></a> [wafv2\_managed\_count\_rule\_groups](#input\_wafv2\_managed\_count\_rule\_groups) | List of WAF V2 managed rule groups, set to count | `list(string)` | `[]` | no |
@@ -73,9 +72,12 @@ No modules.
 | <a name="input_wafv2_cloudwatch_retention"></a> [wafv2\_cloudwatch\_retention](#input\_wafv2\_cloudwatch\_retention) | CloudWatch Logging Retention in Days | `number` | `7` | no |
 | <a name="input_wafv2_create_alb_association"></a> [wafv2\_create\_alb\_association](#input\_wafv2\_create\_alb\_association) | If associate Web ACL with the ALB | `bool` | `false` | no |
 | <a name="input_wafv2_arn_alb_internet_facing"></a> [wafv2\_arn\_alb\_internet\_facing](#input\_wafv2\_arn\_alb\_internet\_facing) | List of ARN of the ALB to associate with the Web ACL | `string` | `[]` | required if `wafv2_create_alb_association` is set to `true` |
-| <a name="input_wafv2_create_cloudfront_association"></a> [wafv2\_create\_cloudfront\_association](#input\_wafv2\_create\_cloudfront\_association) | If associate Web ACL with the CloudFront distribution | `bool` | `false` | no |
-| <a name="input_wafv2_arn_cloudfront_distribution"></a> [wafv2\_arn\_cloudfront\_distribution](#input\_wafv2\_arn\_cloudfront\_distribution) | List of ARN of the CloudFront distribution to associate with the Web ACL | `string` | `[]` | required if `wafv2_create_cloudfront_association` is set to `true` |
 
 ## Outputs
 
-No outputs.
+| Name | Type |
+|------|------|
+| wafv2_arn | output |
+
+#### Remarks
+In order to associate the Web ACL with CloudFront Distributions you must set the argument `web_acl_id` with the "Web ACL ARN" from this output in the resource [aws_cloudfront_distribution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#web_acl_id)
