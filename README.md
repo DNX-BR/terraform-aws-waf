@@ -5,30 +5,29 @@ This Terraform module deploys an AWS Web Application Firewall version 2 (WAFv2).
 The following resources will be created:
 - Web ACL with a defined rule set (count or block)
 - Optional Web Association with a list of Application Load Balancers (ALB)
-- Optional Web Association with a list of CloudFront Distributions
 - Optional CloudWatch logging configuration
 - Optional CloudWatch log group
+
+###### For association with CloudFront Distribution check the notes in the end of this page.
 
 ## Usage
 Usage example with Application Load Balancer (ALB) or CloudFront Distribution.
 ```hcl
 module "wafv2" {
-  source   = "git::https://github.com/DNX-BR/terraform-aws-waf.git?ref=0.1.0"
+  source   = "git::https://github.com/DNX-BR/terraform-aws-waf.git"
   for_each = { for wfa in local.workspace.waf.wafv2 : wfa.name => wfa }
 
   environment                         = local.workspace.account_name
-  wafv2_name                          = each.value.name
+  wafv2_name                          = try(each.value.name, "default")
   wafv2_enable                        = try(each.value.enabled, false)
   wafv2_scope                         = try(each.value.scope, "REGIONAL")
-  wafv2_managed_count_rule_groups     = try(each.value.managed_count_rule_groups, [])
-  wafv2_managed_block_rule_groups     = try(each.value.managed_block_rule_groups, [])
-  wafv2_rate_limit_rule               = try(each.value.rate_limit_rule, 0)
-  wafv2_cloudwatch_logging            = try(each.value.cloudwatch_logging, false)
-  wafv2_cloudwatch_retention          = try(each.value.cloudwatch_retention, 3)
-  wafv2_create_alb_association        = try(each.value.create_alb_association, false)
-  wafv2_arn_alb_internet_facing       = try(each.value.arn_alb_internet_facing, [])
-  wafv2_create_cloudfront_association = try(each.value.create_cloudfront_association, false)
-  wafv2_arn_cloudfront_distribution   = try(each.value.arn_cloudfront_distribution, [])
+  wafv2_managed_count_rule_groups     = try(each.value.rules.managed_count_rule_groups, [])
+  wafv2_managed_block_rule_groups     = try(each.value.rules.managed_block_rule_groups, [])
+  wafv2_rate_limit_rule               = try(each.value.rules.rate_limit_rule, 0)
+  wafv2_cloudwatch_logging            = try(each.value.cloudwatch.cloudwatch_logging, false)
+  wafv2_cloudwatch_retention          = try(each.value.cloudwatch.cloudwatch_retention, 3)
+  wafv2_create_alb_association        = try(each.value.alb_association.create_alb_association, false)
+  wafv2_arn_alb_internet_facing       = try(each.value.alb_association.arn_alb_internet_facing, [])
 }
 ```
 
@@ -79,5 +78,5 @@ No modules.
 |------|------|
 | wafv2_arn | output |
 
-#### Remarks
-In order to associate the Web ACL with CloudFront Distributions you must set the argument `web_acl_id` with the "Web ACL ARN" from this output in the resource [aws_cloudfront_distribution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#web_acl_id)
+###### Remarks
+In order to associate the Web ACL with CloudFront Distributions you must set the argument `web_acl_id` with the "Web ACL ARN" from this output in the resource [aws_cloudfront_distribution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#web_acl_id).
