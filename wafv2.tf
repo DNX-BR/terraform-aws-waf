@@ -92,8 +92,8 @@ resource "aws_wafv2_web_acl" "default" {
 }
 
 resource "aws_wafv2_web_acl_association" "alb" {
-  count        = var.wafv2_enable && var.wafv2_create_alb_association ? length(var.wafv2_arn_alb_internet_facing) : 0
-  resource_arn = var.wafv2_arn_alb_internet_facing[count.index]
+  count        = var.wafv2_enable && var.wafv2_create_alb_association ? 1 : 0
+  resource_arn = var.wafv2_arn_alb_internet_facing[0]
   web_acl_arn  = aws_wafv2_web_acl.default[0].arn
 }
 
